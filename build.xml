@@ -42,24 +42,18 @@
 		<echo msg="${project.basedir}" />
 		<copy todir="${project.basedir}/config" overwrite="true">
 		   <fileset dir="${project.basedir}/config">
-		    <include name="**/*local.php.dist" />
+		    <include name="*local.php.dist" />
+                    <mapper type="glob" from="*.php.dist" to="*.local.php" />
+		     <filterchain>
+                        <replacetoken> 
+                           <token key="host" value="${db.host}" />
+                           <token key="user" value="${db.username}"/>
+                           <token key="password" value="${db.password}" />
+                           <token key="dbname" value="${db.dbname}" />
+                        </replacetoken>
+                     </filterchain>
+
 		   </fileset>
-		<mapper type="glob" from="*.php.dist" to="*.local.php" />
-		</copy>
+	   </copy>
    </target>
-
-   <target name="Replace">
-		<echo msg="${project.basedir}" />
-	<copy todir="${project.basedir}/config" overwrite="true">
-	<fileset dir="${project.basedir}/config">
-		<filterchain>
-			<replacetoken> 
-			<token key="host" value=${db.host}>
-			<token key="user" value=${db.username}>
-			<token key="password" value=${db.password}>
-			<token key="dbname" value=${db.dbname}>
-			</replacetoken>
-		</filterchain>
-   </target>
-
-</project>>
+</project>
